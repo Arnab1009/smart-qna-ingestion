@@ -23,6 +23,7 @@ steps:
     entrypoint: gcloud
     args:
       - run
+      - jobs
       - deploy
       - smart-qna-ingestion
       - --image=us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-ingestion-repo/smart-qna-ingestion:$SHORT_SHA
@@ -37,6 +38,8 @@ steps:
           PINECONE_INDEX_NAME=smart-qna-index,
           PINECONE_ENVIRONMENT=us-east-1-aws
       - --update-secrets=PINECONE_API_KEY=PINECONE_API_KEY:latest
+      - --command=python
+      - --args=app/trigger_ingestion.py
 
 images:
-  - us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-repo/smart-qna-ingestion:$SHORT_SHA
+  - us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-ingestion-repo/smart-qna-ingestion:$SHORT_SHA
