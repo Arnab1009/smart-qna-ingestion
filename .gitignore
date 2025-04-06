@@ -1,0 +1,33 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.log
+*.sqlite3
+*.db
+
+# Env & config
+.env
+.env.*
+*.key
+*.pem
+
+# Poetry / build
+poetry.lock
+dist/
+build/
+.cache/
+.mypy_cache/
+
+# Jupyter / notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.tar

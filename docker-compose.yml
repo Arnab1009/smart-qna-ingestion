@@ -1,0 +1,13 @@
+services:
+  ingestion:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart-qna-ingestion
+    image: smart-qna-ingestion
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs     # So logs are persisted locally
+    working_dir: /app
+    command: python app/trigger_ingestion.py

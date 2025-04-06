@@ -1,0 +1,23 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Git / VCS
+.git
+.gitignore
+
+# Secrets / envs
+.env
+.env.*
+*.pem
+*.key
+
+# Jupyter
+*.ipynb
+.ipynb_checkpoints/
+
+# System files
+.DS_Store

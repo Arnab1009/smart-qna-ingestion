@@ -1,0 +1,28 @@
+[project]
+name = "smart-qna-ingestion"
+version = "0.1.0"
+description = "Automated data ingestion system for smart-qna"
+authors = [
+    {name = "Arnab Halder",email = "halderarnab.ah@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "langchain (>=0.3.23,<0.4.0)",
+    "pymupdf (>=1.25.5,<2.0.0)",
+    "langchain-google-vertexai (>=2.0.19,<3.0.0)",
+    "pinecone (>=6.0.2,<7.0.0)",
+    "google-cloud-storage (>=2.18.0,<3.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "langchain-pinecone (>=0.2.4,<0.3.0)"
+]
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+jupyter = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,42 @@
+# Add service account and logs bucket
+serviceAccount: '307756948431-compute@developer.gserviceaccount.com'
+logsBucket: 'gs://smart-qna-build-logs'
+
+steps:
+  # Step 1: Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-ingestion-repo/smart-qna-ingestion:$SHORT_SHA',
+      '.'
+    ]
+
+  # Step 2: Push image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-ingestion-repo/smart-qna-ingestion:$SHORT_SHA'
+    ]
+
+  # Step 3: Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - smart-qna-ingestion
+      - --image=us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-ingestion-repo/smart-qna-ingestion:$SHORT_SHA
+      - --region=us-central1
+      - --platform=managed
+      - --no-allow-unauthenticated
+      - --memory=1Gi
+      - --set-env-vars=GOOGLE_CLOUD_PROJECT=llm-poc-450818,
+          GOOGLE_CLOUD_REGION=us-central1,
+          GCS_BUCKET=rag-datastore,
+          LAST_SYNC_BLOB_PATH=sync_data/last_sync.json,
+          PINECONE_INDEX_NAME=smart-qna-index,
+          PINECONE_ENVIRONMENT=us-east-1-aws
+      - --update-secrets=PINECONE_API_KEY=PINECONE_API_KEY:latest
+
+images:
+  - us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-repo/smart-qna-ingestion:$SHORT_SHA
