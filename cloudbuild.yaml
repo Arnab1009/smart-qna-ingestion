@@ -1,4 +1,3 @@
-# Add service account and logs bucket
 serviceAccount: '307756948431-compute@developer.gserviceaccount.com'
 logsBucket: 'gs://smart-qna-build-logs'
 
@@ -18,7 +17,7 @@ steps:
       'us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-ingestion-repo/smart-qna-ingestion:$SHORT_SHA'
     ]
 
-  # Step 3: Deploy to Cloud Run
+  # Step 3: Deploy to Cloud Run Job
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -28,9 +27,8 @@ steps:
       - smart-qna-ingestion
       - --image=us-central1-docker.pkg.dev/llm-poc-450818/smart-qna-ingestion-repo/smart-qna-ingestion:$SHORT_SHA
       - --region=us-central1
-      - --platform=managed
-      - --no-allow-unauthenticated
       - --memory=1Gi
+      - --max-retries=1
       - --set-env-vars=GOOGLE_CLOUD_PROJECT=llm-poc-450818,
           GOOGLE_CLOUD_REGION=us-central1,
           GCS_BUCKET=rag-datastore,
